@@ -2,40 +2,43 @@ const { Schema, model } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const UserSchema = new Schema({
-  first_name: {
-    type: String,
-    required: [true, "Please provide first name"],
-    trim: true,
-    minlength: [3, "Characters should not be less than 3"],
+const UserSchema = new Schema(
+  {
+    first_name: {
+      type: String,
+      required: [true, "Please provide first name"],
+      trim: true,
+      minlength: [3, "Characters should not be less than 3"],
+    },
+    last_name: {
+      type: String,
+      required: [true, "Please provide last name"],
+      trim: true,
+      minlength: [3, "Characters should not be less than 3"],
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide email"],
+      match: [
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Please provide a valid email",
+      ],
+      unique: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Please provide password"],
+      minlength: [6, "Password should not be less than 6 character"],
+    },
+    confirm_password: {
+      type: String,
+      required: [true, "Please confirm password"],
+      minlength: [6, "Password should not be less than 6 character"],
+    },
   },
-  last_name: {
-    type: String,
-    required: [true, "Please provide last name"],
-    trim: true,
-    minlength: [3, "Characters should not be less than 3"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please provide email"],
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Please provide a valid email",
-    ],
-    unique: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Please provide password"],
-    minlength: [6, "Password should not be less than 6 character"],
-  },
-  confirm_password: {
-    type: String,
-    required: [true, "Please confirm password"],
-    minlength: [6, "Password should not be less than 6 character"],
-  },
-});
+  { timestamps: true }
+);
 
 // Check if password and confirm_password are the same
 UserSchema.path("confirm_password").validate(function (value) {

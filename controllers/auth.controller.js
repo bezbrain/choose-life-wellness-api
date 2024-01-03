@@ -5,14 +5,17 @@ const UnauthenticatedError = require("../errors/unauthenticated");
 
 // Register a user
 const register = async (req, res) => {
-  const { body } = req;
-  const user = await UserCollection.create(body);
+  const {
+    body: { first_name, last_name, email },
+  } = req;
+  const user = await UserCollection.create(req.body);
   const token = user.createJWT();
 
   res.status(StatusCodes.CREATED).json({
     success: true,
     message: "User registration successful",
     token,
+    user: { first_name, last_name, email },
   });
 };
 
@@ -44,7 +47,7 @@ const login = async (req, res) => {
     success: true,
     message: "Login successful",
     token,
-    email,
+    user: { email },
   });
 };
 
