@@ -63,4 +63,10 @@ UserSchema.methods.createJWT = function () {
   );
 };
 
+// Compare Password
+UserSchema.methods.comparePassword = async function (userPassword) {
+  const isMatch = await bcrypt.compare(userPassword, this.password);
+  return isMatch;
+};
+
 module.exports = model("Users", UserSchema);
