@@ -36,6 +36,14 @@ const UserSchema = new Schema(
       required: [true, "Please confirm password"],
       minlength: [6, "Password should not be less than 6 character"],
     },
+    accountType: {
+      type: String,
+      enum: ["individual", "company"],
+      required: [
+        true,
+        "Please make a selection between individual and company",
+      ],
+    },
   },
   { timestamps: true }
 );

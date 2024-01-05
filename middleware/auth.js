@@ -14,8 +14,8 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(extractToken, process.env.JWT_SECRET);
-    const { userId, first_name, email } = payload;
-    req.user = { userId, first_name, email };
+    // const { userId, first_name, email } = payload;
+    req.user = { ...payload };
     next();
   } catch (error) {
     throw new UnauthenticatedError("User not authenticated");
