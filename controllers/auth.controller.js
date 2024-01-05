@@ -43,6 +43,9 @@ const login = async (req, res) => {
 
   const token = user.createJWT();
 
+  req.user = { email };
+  // console.log(req.user);
+
   res.status(StatusCodes.CREATED).json({
     success: true,
     message: "Login successful",
